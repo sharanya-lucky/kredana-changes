@@ -139,22 +139,21 @@ export default function InstituteDetailsPage() {
 
           {/* Rating */}
           <div className="flex gap-1 mt-3">
-{[1, 2, 3, 4, 5].map((s) => {
-  const isActive =
-    inst.ratingsByUser?.[auth.currentUser?.uid] >= s;
+            {[1, 2, 3, 4, 5].map((s) => {
+              const isActive =
+                inst.ratingsByUser?.[auth.currentUser?.uid] >= s;
 
-  return (
-    <Star
-      key={s}
-      onClick={() => handleRating(s)}
-      className={`w-6 h-6 cursor-pointer ${
-        isActive
-          ? "text-yellow-400 fill-yellow-400"
-          : "text-gray-300"
-      }`}
-    />
-  );
-})}
+              return (
+                <Star
+                  key={s}
+                  onClick={() => handleRating(s)}
+                  className={`w-6 h-6 cursor-pointer ${isActive
+                      ? "text-yellow-400 fill-yellow-400"
+                      : "text-gray-300"
+                    }`}
+                />
+              );
+            })}
           </div>
 
           <p className="text-sm font-semibold mt-1">
@@ -164,37 +163,37 @@ export default function InstituteDetailsPage() {
 
           {/* Buttons */}
           <div className="flex flex-col gap-3 w-full mt-6">
-<a href={`tel:${inst.phoneNumber}`} className="btn-primary">
-  <img src="/call-icon.png" className="w-4 h-4" alt="call" />
-  Call
-</a>
+            <a href={`tel:${inst.phoneNumber}`} className="btn-primary">
+              <img src="/call-icon.png" className="w-4 h-4" alt="call" />
+              Call
+            </a>
 
-<button
-  onClick={() => navigate(`/book-demo/${inst.id}`)}
-  className="btn-success"
->
-  <Calendar size={16} className="text-[#000000]" />
-  Book Demo Class
-</button>
+            <button
+              onClick={() => navigate(`/book-demo/${inst.id}`)}
+              className="btn-success"
+            >
+              <Calendar size={16} className="text-[#000000]" />
+              Book Demo Class
+            </button>
 
-{auth.currentUser && (
-  <button onClick={() => startInstituteChat()} className="btn-primary">
-    <img src="/chat-icon.png" className="w-5 h-5" alt="chat" />
-    Chat with Institute
-  </button>
-)}
+            {auth.currentUser && (
+              <button onClick={() => startInstituteChat()} className="btn-primary">
+                <img src="/chat-icon.png" className="w-5 h-5" alt="chat" />
+                Chat with Institute
+              </button>
+            )}
 
-{inst.email && inst.email.includes("@") && (
-  <a
-    href={`https://mail.google.com/mail/?view=cm&fs=1&to=${inst.email.trim()}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="btn-outline"
-  >
-    <img src="/email-icon.png" className="w-4 h-4" alt="email" />
-    Email
-  </a>
-)}
+            {inst.email && inst.email.includes("@") && (
+              <a
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${inst.email.trim()}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline"
+              >
+                <img src="/email-icon.png" className="w-4 h-4" alt="email" />
+                Email
+              </a>
+            )}
           </div>
         </div>
 
@@ -213,7 +212,9 @@ export default function InstituteDetailsPage() {
       <div className="mt-14 grid gap-10">
         {/* ABOUT */}
         <Card title="About Institute" icon={Building2}>
-          {inst.description}
+          <div className="whitespace-pre-line">
+            {inst.description}
+          </div>
         </Card>
 
         {/* FOUNDER */}
@@ -231,33 +232,87 @@ export default function InstituteDetailsPage() {
           {["district", "state", "national"].map((lvl) => (
             <div key={lvl} className="mb-3">
               <h4 className="font-bold capitalize">{lvl}</h4>
-<p className="flex items-center gap-2 flex-wrap">
-  <span className="flex items-center gap-1">
-    <img src="/gold-medal.png" className="w-4 h-4" alt="gold" />
-    Gold: {inst.achievements?.[lvl]?.gold || 0}
-  </span>
+              <p className="flex items-center gap-2 flex-wrap">
+                <span className="flex items-center gap-1">
+                  <img src="/gold-medal.png" className="w-4 h-4" alt="gold" />
+                  Gold: {inst.achievements?.[lvl]?.gold || 0}
+                </span>
 
-  <span className="flex items-center gap-1">
-    <img src="/silver-medal.png" className="w-4 h-4" alt="silver" />
-    Silver: {inst.achievements?.[lvl]?.silver || 0}
-  </span>
+                <span className="flex items-center gap-1">
+                  <img src="/silver-medal.png" className="w-4 h-4" alt="silver" />
+                  Silver: {inst.achievements?.[lvl]?.silver || 0}
+                </span>
 
-  <span className="flex items-center gap-1">
-    <img src="/bronze-medal.png" className="w-4 h-4" alt="bronze" />
-    Bronze: {inst.achievements?.[lvl]?.bronze || 0}
-  </span>
-</p>
+                <span className="flex items-center gap-1">
+                  <img src="/bronze-medal.png" className="w-4 h-4" alt="bronze" />
+                  Bronze: {inst.achievements?.[lvl]?.bronze || 0}
+                </span>
+              </p>
             </div>
           ))}
         </Card>
 
         {/* TRAINING PROGRAM */}
         <Card title="Training Program" icon={BookOpen}>
-          {Object.entries(inst.trainingProgram || {}).map(([k, v]) => (
-            <p key={k}>
-              <b>{k}:</b> {v}
-            </p>
-          ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
+
+            <div>
+              <p className="text-gray-500">Skill Level</p>
+              <p className="font-semibold text-gray-800">
+                {inst.trainingProgram?.skillLevel || "-"}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-gray-500">Batch Timings</p>
+              <p className="font-semibold text-gray-800">
+                {inst.trainingProgram?.batchTimings || "-"}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-gray-500">Program Name</p>
+              <p className="font-semibold text-gray-800">
+                {inst.trainingProgram?.programName || "-"}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-gray-500">Fees</p>
+              <p className="font-semibold text-gray-800">
+                ₹ {inst.trainingProgram?.fees || "-"}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-gray-500">Age Group</p>
+              <p className="font-semibold text-gray-800">
+                {inst.trainingProgram?.ageGroup || "-"}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-gray-500">Seats Available</p>
+              <p className="font-semibold text-gray-800">
+                {inst.trainingProgram?.seatsAvailable || "-"}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-gray-500">Duration</p>
+              <p className="font-semibold text-gray-800">
+                {inst.trainingProgram?.duration || "-"}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-gray-500">Trial Sessions</p>
+              <p className="font-semibold text-gray-800">
+                {inst.trainingProgram?.trialSessions || "-"}
+              </p>
+            </div>
+
+          </div>
         </Card>
 
         {/* PRICING */}
