@@ -31,6 +31,13 @@ const Landing = () => {
   const [trainers, setTrainers] = useState([]);
   const [institutes, setInstitutes] = useState([]);
   const [reels, setReels] = useState([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+const slides = [
+  "/images/slide1.jpg",
+  "/images/slide2.jpg",
+  "/images/slide3.jpg",
+];
   const [userLocation, setUserLocation] = useState(null);
 
   /* ================= AUTH ================= */
@@ -119,7 +126,13 @@ const Landing = () => {
 
     fetchReels();
   }, []);
+useEffect(() => {
+  const interval = setInterval(() => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  }, 3000); // 3 seconds
 
+  return () => clearInterval(interval);
+}, []);
   return (
     <div className="w-full font-sans">
       {/* 3px white line */}
@@ -128,56 +141,24 @@ const Landing = () => {
       {/* ================================================= */}
       {/* ================= HERO SECTION =================== */}
       {/* ================================================= */}
-      <section className="bg-black text-white px-6 md:px-20 h-[65vh] flex flex-col md:flex-row items-center justify-between gap-10 overflow-hidden">
-        {/* TEXT SECTION */}
-        <div className="w-full md:w-3/5">
-          <h1 className="text-4xl md:text-5xl font-bold leading-[1.35] md:leading-[1.3]">
-            Connecting Trainers, Institutes & Learners Through Sports & Growth
-          </h1>
+     <section className="w-full bg-white">
 
-          <p className="mt-6 text-gray-300 text-lg max-w-lg">
-            Empowering Sports Institutes & Trainers to Manage, Grow & Succeed.
-          </p>
+  <div className="relative w-full max-w-[1440px] h-[500px] mx-auto overflow-hidden">
 
-          <div className="mt-8 grid grid-cols-2 gap-6 max-w-2xl">
-            <button className="border border-orange-500 px-6 py-3 rounded-md text-orange-500">
-              Manage & Engage Seamlessly
-            </button>
+    {slides.map((img, index) => (
+      <img
+        key={index}
+        src={img}
+        alt="slide"
+        className={`absolute w-full h-full object-cover transition-opacity duration-1000 ${
+          index === currentSlide ? "opacity-100" : "opacity-0"
+        }`}
+      />
+    ))}
 
-            <button className="border border-orange-500 px-6 py-3 rounded-md text-orange-500">
-              Grow & Scale Your Business
-            </button>
+  </div>
 
-            <button className="col-span-2 justify-self-center border border-orange-500 px-6 py-3 rounded-md text-orange-500">
-              Create & Showcase Your Profile
-            </button>
-          </div>
-        </div>
-
-        {/* IMAGE SECTION */}
-        <div className="w-full md:w-2/5 relative flex justify-center items-end">
-          {/* Orange Circle */}
-          <div
-            className="absolute 
-      w-[200px] h-[200px] 
-      md:w-[340px] md:h-[340px] 
-      bg-orange-500 
-      rounded-full 
-      right-4"
-          ></div>
-
-          <img
-            src="/images/hero.png"
-            alt="Hero"
-            className="relative z-10 
-    h-[60vh] 
-    md:h-[80vh] 
-    w-auto 
-    object-contain
-    translate-y-8 md:translate-y-12"
-          />
-        </div>
-      </section>
+</section>
 
       {/* ================================================= */}
       {/* ================= DOMAINS SECTION ================= */}
@@ -283,15 +264,7 @@ const Landing = () => {
 
       {/* ================= ADS SECTION ================= */}
 
-      <section className="py-6">
-        <div className="max-w-5xl mx-auto px-6">
-          <img
-            src="/images/ad-banner.jpg"
-            alt="Advertisement"
-            className="w-full h-auto"
-          />
-        </div>
-      </section>
+      
 
       {/* ================================================= */}
       {/* ================= TOP TRAINERS =================== */}
