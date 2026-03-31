@@ -46,8 +46,11 @@ const InstituteDataPage = ({
           .trim();
 
         const matchesSearch = fullName.includes(search.toLowerCase());
-        const matchesDate = !selectedDate || s.createdAt === selectedDate;
+     const studentDate = s.createdAt || s.joiningDate;
 
+const matchesDate =
+  !selectedDate ||
+  (s.joiningDate && s.joiningDate === selectedDate);
         return matchesSearch && matchesDate;
       })
       .sort((a, b) =>
@@ -84,7 +87,9 @@ const InstituteDataPage = ({
           .trim();
 
         const matchesSearch = fullName.includes(search.toLowerCase());
-        const matchesDate = !selectedDate || t.createdAt === selectedDate;
+      const matchesDate =
+  !selectedDate ||
+  (t.joiningDate && t.joiningDate === selectedDate);
 
         return matchesSearch && matchesDate;
       })

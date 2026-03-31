@@ -148,16 +148,14 @@ const InstituteDashboard = () => {
         const raw = doc.data();
 
         return {
-          uid: doc.id,
-          ...raw,
-
-          // ✅ keep category fallback logic
-          batch: raw.batch || raw.category || "",
-
-          createdAt: raw.createdAt
-            ? raw.createdAt.toDate().toISOString().split("T")[0]
-            : null,
-        };
+  uid: doc.id,
+  ...raw,
+  batch: raw.batch || raw.category || "",
+  createdAt: raw.createdAt
+    ? raw.createdAt.toDate().toISOString().split("T")[0]
+    : null,
+  joiningDate: raw.joiningDate || null,
+};
       });
 
       setStudents(data);
@@ -178,6 +176,7 @@ const InstituteDashboard = () => {
         createdAt: doc.data().createdAt
           ? doc.data().createdAt.toDate().toISOString().split("T")[0]
           : null,
+            joiningDate: doc.data().joiningDate || null,
       }));
 
       setTrainers(data);
