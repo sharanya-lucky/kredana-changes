@@ -20,12 +20,23 @@ const EventAnalytics = () => {
 
       const snap = await getDocs(q);
 
-      const data = snap.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+     const data = snap.docs.map((doc) => ({
+  id: doc.id,
+  ...doc.data(),
+}));
 
-      setEvents(data);
+// ✅ SORT EVENTS BY NAME (A → Z)
+const sortedData = data.sort((a, b) =>
+  (a.basicInfo?.eventName || "").localeCompare(
+    b.basicInfo?.eventName || ""
+  )
+);
+
+// ✅ SET SORTED DATA
+setEvents(sortedData);
+
+// ✅ SET FIRST EVENT FROM SORTED LIST
+if (sortedData.length) setSelectedEvent(sortedData[0]);
 
       if (data.length) setSelectedEvent(data[0]);
     };

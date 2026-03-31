@@ -373,25 +373,30 @@ const BasicInformation = () => {
     fetchData();
   }, [user]);
   // ✅ HANDLE CHANGE
-  const handleChange = (e) => {
+ const handleChange = (e) => {
   const { name, value } = e.target;
 
   let newValue = value;
 
-  // ✅ Fields to capitalize
- const capitalizeFields = [
-  "institutionName", // ✅ ADD THIS
-  "type",
-  "headCoach",
-  "tagline",
-];
+  // ✅ Only numbers for Established Year
+ if (name === "establishedYear") {
+  newValue = newValue.replace(/[^0-9]/g, "").slice(0, 4);
+}
+
+  const capitalizeFields = [
+    "institutionName",
+    "type",
+    "headCoach",
+    "tagline",
+  ];
+
   if (capitalizeFields.includes(name)) {
-    // allow only letters for name fields
-    if (["headCoach", "type"].includes(name)) {
+    // ✅ allow only letters
+    if (["headCoach", "type", "institutionName"].includes(name)) {
       newValue = newValue.replace(/[^A-Za-z ]/g, "");
     }
 
-    // ✅ Capitalize each word
+    // ✅ Capitalize
     newValue = newValue.replace(/\b[a-z]/g, (char) =>
       char.toUpperCase()
     );
@@ -407,7 +412,6 @@ const BasicInformation = () => {
     [name]: "",
   }));
 };
-
   // ✅ VALIDATION
   const validate = () => {
     let newErrors = {};

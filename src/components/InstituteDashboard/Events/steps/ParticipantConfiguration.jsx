@@ -246,7 +246,7 @@ const ParticipantConfiguration = ({ formData, setFormData }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block font-medium mb-2">
-              Upload required Documents*
+              Upload Required Documents*
             </label>
 
             <div className="border border-orange-300 rounded-lg h-10 flex items-center justify-between px-3">

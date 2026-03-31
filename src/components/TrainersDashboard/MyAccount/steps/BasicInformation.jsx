@@ -396,20 +396,25 @@ const BasicInformation = () => {
   const { name, value } = e.target;
 
   let newValue = value;
+  // ✅ Only numbers + max 4 digits (like 2030)
+if (name === "establishedYear") {
+  newValue = newValue.replace(/[^0-9]/g, "").slice(0, 4);
+}
 
   // ✅ Fields to capitalize
-  const capitalizeFields = [
-    "trainerName",
-    "headCoach",
-    "type",
-    "tagline",
-  ];
+ const capitalizeFields = [
+  "trainerName",
+  "institutionName", // ✅ ADD THIS
+  "headCoach",
+  "type",
+  "tagline",
+];
 
   if (capitalizeFields.includes(name)) {
     newValue = value;
 
     // ✅ Restrict alphabets for name fields only
-    if (["trainerName", "headCoach", "type"].includes(name)) {
+if (["trainerName", "institutionName", "headCoach", "type"].includes(name)) {
       newValue = newValue.replace(/[^A-Za-z ]/g, "");
     }
 
@@ -605,7 +610,8 @@ const BasicInformation = () => {
           { label: "Logo / Cover / Banner Images", name: "logo" },
 
           { label: "Head Coach Name", name: "headCoach" },
-
+{ label: "Institution / Academy Name", name: "institutionName" },
+{ label: "Established Year", name: "establishedYear" }, // ✅ ADD THIS
           // 🔥 ADD THIS HERE
           { label: "Short Tag Line (1 line preferred)", name: "tagline" },
         ].map((field) => (

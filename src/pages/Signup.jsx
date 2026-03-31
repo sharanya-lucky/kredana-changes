@@ -22,7 +22,20 @@ export default function Signup() {
   const [agreed, setAgreed] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    let newValue = value;
+
+    // ✅ Name → only alphabets + capitalize
+    if (name === "name") {
+      newValue = value
+        .replace(/[^A-Za-z ]/g, "") // only letters
+        .replace(/\b[a-z]/g, (c) => c.toUpperCase()); // capitalize
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: newValue,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -171,11 +184,10 @@ export default function Signup() {
           <button
             type="submit"
             disabled={!agreed}
-            className={`mt-4 w-full p-3 rounded-md font-semibold transition-colors ${
-              agreed
+            className={`mt-4 w-full p-3 rounded-md font-semibold transition-colors ${agreed
                 ? "bg-orange-500 text-white hover:bg-orange-600"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
+              }`}
           >
             Sign Up
           </button>
