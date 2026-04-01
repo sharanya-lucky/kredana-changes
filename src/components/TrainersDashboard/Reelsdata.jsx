@@ -37,8 +37,8 @@ const AnalyticsPage = () => {
   const currentYear = new Date().getFullYear();
 
   const [selectedYear, setSelectedYear] = useState(currentYear);
-  const [startMonth, setStartMonth] = useState(0);
-  const [endMonth, setEndMonth] = useState(11);
+const [startMonth, setStartMonth] = useState("");
+const [endMonth, setEndMonth] = useState("");
   const [employeeStats, setEmployeeStats] = useState({
     joined: 0,
     left: 0,
@@ -261,7 +261,7 @@ pdf.addImage(img, "PNG", 10, 10, imgWidth, imgHeight);
   const [loadingRevenue, setLoadingRevenue] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || startMonth === "" || endMonth === "") return;
 
     const fetchGraphData = async () => {
       try {
@@ -308,7 +308,7 @@ pdf.addImage(img, "PNG", 10, 10, imgWidth, imgHeight);
 
         const graph = [];
 
-        for (let m = startMonth; m <= endMonth; m++) {
+       for (let m = Number(startMonth); m <= Number(endMonth); m++) {
           graph.push({
             month: months[m],
             revenue: revenueMap[m] || 0,
@@ -358,9 +358,10 @@ pdf.addImage(img, "PNG", 10, 10, imgWidth, imgHeight);
 
 <select
   value={startMonth}
-  onChange={(e) => setStartMonth(Number(e.target.value))}
+  onChange={(e) => setStartMonth(e.target.value)}
   className="border px-3 py-2 rounded"
 >
+  <option value="">From Month</option>
   {[...Array(12)].map((_, i) => (
     <option key={i} value={i}>
       {new Date(0, i).toLocaleString("default", { month: "short" })}
@@ -370,9 +371,10 @@ pdf.addImage(img, "PNG", 10, 10, imgWidth, imgHeight);
 
 <select
   value={endMonth}
-  onChange={(e) => setEndMonth(Number(e.target.value))}
+  onChange={(e) => setEndMonth(e.target.value)}
   className="border px-3 py-2 rounded"
 >
+  <option value="">To Month</option>
   {[...Array(12)].map((_, i) => (
     <option key={i} value={i}>
       {new Date(0, i).toLocaleString("default", { month: "short" })}

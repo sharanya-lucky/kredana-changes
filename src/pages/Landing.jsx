@@ -126,13 +126,17 @@ const slides = [
 
     fetchReels();
   }, []);
-useEffect(() => {
-  const interval = setInterval(() => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, 3000); // 3 seconds
+const nextSlide = () => {
+  if (currentSlide < slides.length - 1) {
+    setCurrentSlide(currentSlide + 1);
+  }
+};
 
-  return () => clearInterval(interval);
-}, []);
+const prevSlide = () => {
+  if (currentSlide > 0) {
+    setCurrentSlide(currentSlide - 1);
+  }
+};
   return (
     <div className="w-full font-sans">
       {/* 3px white line */}
@@ -155,7 +159,29 @@ useEffect(() => {
         }`}
       />
     ))}
+{/* Left Arrow */}
+{currentSlide > 0 && (
+  <button
+    onClick={prevSlide}
+    className="absolute left-5 top-1/2 -translate-y-1/2 
+               bg-black/40 text-white w-10 h-10 rounded-full 
+               flex items-center justify-center hover:bg-black/70 transition"
+  >
+    &#10094;
+  </button>
+)}
 
+{/* Right Arrow */}
+{currentSlide < slides.length - 1 && (
+  <button
+    onClick={nextSlide}
+    className="absolute right-5 top-1/2 -translate-y-1/2 
+               bg-black/40 text-white w-10 h-10 rounded-full 
+               flex items-center justify-center hover:bg-black/70 transition"
+  >
+    &#10095;
+  </button>
+)}
   </div>
 
 </section>
