@@ -147,7 +147,8 @@ const prevSlide = () => {
       {/* ================================================= */}
      <section className="w-full bg-white">
 
-  <div className="relative w-full max-w-[1440px] h-[500px] mx-auto overflow-hidden">
+  <div className="relative w-full max-w-[1440px] mx-auto overflow-hidden 
+                h-[220px] sm:h-[300px] md:h-[400px] lg:h-[500px]">
 
     {slides.map((img, index) => (
       <img
