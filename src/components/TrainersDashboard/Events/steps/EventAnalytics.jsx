@@ -20,21 +20,25 @@ const EventAnalytics = () => {
 
       const snap = await getDocs(q);
 
-    const data = snap.docs.map((doc) => ({
-  id: doc.id,
-  ...doc.data(),
-}));
+      const data = snap.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+        basicInfo: {
+          ...doc.data().basicInfo,
+          eventName: doc.data().basicInfo?.eventName?.trim() || "",
+        },
+      }));
 
-// ✅ SORT EVENTS BY NAME (A → Z)
-const sortedData = data.sort((a, b) =>
-  (a.basicInfo?.eventName || "").localeCompare(
-    b.basicInfo?.eventName || ""
-  )
-);
+      // ✅ SORT EVENTS BY NAME (A → Z)
+      const sortedData = data.sort((a, b) =>
+        (a.basicInfo?.eventName || "").localeCompare(
+          b.basicInfo?.eventName || ""
+        )
+      );
 
-setEvents(sortedData);
+      setEvents(sortedData);
 
-     if (sortedData.length) setSelectedEvent(sortedData[0]);
+      if (sortedData.length) setSelectedEvent(sortedData[0]);
     };
 
     fetchEvents();
@@ -71,14 +75,19 @@ setEvents(sortedData);
       {/* Event Filter */}
       <select
         className="border border-gray-300 px-4 py-2 rounded mb-6"
+        value={selectedEvent?.id || ""}
         onChange={(e) => {
           const event = events.find((ev) => ev.id === e.target.value);
           setSelectedEvent(event);
         }}
       >
+        <option value="" disabled>
+          Select Event
+        </option>
+
         {events.map((ev) => (
           <option key={ev.id} value={ev.id}>
-            {ev.basicInfo?.eventName}
+            {ev.basicInfo?.eventName?.trim()}
           </option>
         ))}
       </select>
